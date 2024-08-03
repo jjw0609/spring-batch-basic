@@ -1,4 +1,4 @@
-package com.example.SpringBatchTutorial.job;
+package com.example.SpringBatchTutorial.job.HelloWorld;
 
 
 import lombok.RequiredArgsConstructor;
@@ -9,7 +9,6 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
-import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
@@ -18,6 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * desc: Hello World 출력
+ * run: --spring.batch.job.names=helloWorldJob
+ */
 @Configuration
 @RequiredArgsConstructor
 public class HelloWorldJobConfig {
@@ -30,7 +33,7 @@ public class HelloWorldJobConfig {
 
     @Bean
     public Job helloWorldJob() {
-        return new JobBuilder("hellopWorldJob")
+        return jobBuilderFactory.get("hellopWorldJo0b")
                 .incrementer(new RunIdIncrementer())
                 .start(helloWorldStep())
                 .build();
