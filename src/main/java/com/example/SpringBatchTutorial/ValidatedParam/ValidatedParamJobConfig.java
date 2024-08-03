@@ -58,7 +58,7 @@ public class ValidatedParamJobConfig {
     @Bean
     public Step validatedParamJStep(Tasklet validatedParamTasklet) {
         return stepBuilderFactory.get("validatedParamJStep")
-                .tasklet(validatedParamTasklet())
+                .tasklet(validatedParamTasklet)
                 .build();
     }
 
