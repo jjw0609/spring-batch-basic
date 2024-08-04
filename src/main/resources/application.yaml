@@ -3,11 +3,11 @@ spring:
     job:
       names: ${job.name:NONE}
     jdbc:
-      initalize-schema: ALWAYS
-#  datasource:
-#    url: jdbc:mysql://127.0.0.1:3306/spring_batch
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    username: jjw
-#    password: jjw1234
+      initialize-schema: ALWAYS
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/spring_batch
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: wjdwodnd0609
   jpa:
     show-sql: true
