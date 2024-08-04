@@ -1,7 +1,6 @@
-package com.example.SpringBatchTutorial.ValidatedParam;
+package com.example.SpringBatchTutorial.job.JobListener;
 
 
-import com.example.SpringBatchTutorial.ValidatedParam.Validator.FileParamValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -10,26 +9,21 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
-import org.springframework.batch.core.job.CompositeJobParametersValidator;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.Arrays;
-
-
 /**
- * desc: 파일 이름 파라미터 전달 그리고 검증
- * run: --spring.batch.job.names=validatedParamJob -fileName=test.csv
+ * desc: Hello World 출력
+ * run: --spring.batch.job.names=jobListenerJob
  */
 @Configuration
 @RequiredArgsConstructor
-public class ValidatedParamJobConfig {
+public class JobListenerConfig {
 
     @Autowired
     private JobBuilderFactory jobBuilderFactory;
@@ -38,39 +32,31 @@ public class ValidatedParamJobConfig {
     private StepBuilderFactory stepBuilderFactory;
 
     @Bean
-    public Job validatedParamJob(Step validatedParamJStep) {
-        return jobBuilderFactory.get("validatedParamJob")
+    public Job jobListenerJob(Step jobListenerStep) {
+        return jobBuilderFactory.get("jobListenerJob")
                 .incrementer(new RunIdIncrementer())
-//                .validator(new FileParamValidator())
-                .validator(multipleValidators())
-                .start(validatedParamJStep)
+                .listener(new JobLoggerListener())
+                .start(jobListenerStep)
                 .build();
-    }
-
-    private CompositeJobParametersValidator multipleValidators() {
-        CompositeJobParametersValidator validator = new CompositeJobParametersValidator();
-        validator.setValidators(Arrays.asList(new FileParamValidator()));
-
-        return validator;
     }
 
     @JobScope
     @Bean
-    public Step validatedParamJStep(Tasklet validatedParamTasklet) {
-        return stepBuilderFactory.get("validatedParamJStep")
-                .tasklet(validatedParamTasklet)
+    public Step jobListenerStep(Tasklet jobListenerTasklet) {
+        return stepBuilderFactory.get("jobListenerStep")
+                .tasklet(jobListenerTasklet)
                 .build();
     }
 
     @StepScope
     @Bean
-    public Tasklet validatedParamTasklet(@Value("#{jobParameters['fileName']}") String fileName) {
+    public Tasklet jobListenerTasklet() {
         return new Tasklet() {
             @Override
             public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-                System.out.println(fileName);
-                System.out.println("validated Param Tasklet");
-                return RepeatStatus.FINISHED;
+//                System.out.println("Job Listener Tasklet");
+//                return RepeatStatus.FINISHED;
+                throw new Exception("Failed!!!!");
             }
         };
     }
