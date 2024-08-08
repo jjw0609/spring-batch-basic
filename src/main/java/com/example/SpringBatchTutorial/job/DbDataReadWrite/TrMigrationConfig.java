@@ -92,7 +92,7 @@ public class TrMigrationConfig {
 
     @StepScope
     @Bean
-    public ItemProcessor<Orders, Accounts> trProcessor() {
+    public ItemProcessor<Orders, Accounts> trOrderProcessor() {
         return new ItemProcessor<Orders, Accounts>() {
             @Override
             public Accounts process(Orders item) throws Exception {
